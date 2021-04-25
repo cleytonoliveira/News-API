@@ -14,6 +14,8 @@
     "dev": "cross-env NODE_ENV=development nodemon --watch src --exec babel-node src/app.js",
     "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json .",
     "lint:fix": "eslint --fix .",
+    "migrate": "npx knex migrate:latest",
+    "rollback": "npx knex migrate:rollback",
     "test": "jest",
     "test-coverage": "jest --coverage"
   },
