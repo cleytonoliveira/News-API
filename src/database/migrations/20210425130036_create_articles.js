@@ -4,8 +4,15 @@ exports.up = (knex) => knex.schema
     table.string('title').notNullable();
     table.string('category').notNullable();
     table.string('summary').notNullable();
-    table.string('firstParagraph').notNullable();
+    table.string('first_paragraph').notNullable();
     table.string('body').notNullable();
+    table.integer('author_id')
+      .notNullable()
+      .unsigned()
+      .references('id')
+      .inTable('authors')
+      .onUpdate('CASCADE')
+      .onDelete('CASCADE');
     table.timestamp('created_at').defaultTo(knex.fn.now());
     table.timestamp('updated_at').defaultTo(knex.fn.now());
   });
