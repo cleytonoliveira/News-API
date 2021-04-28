@@ -29,6 +29,9 @@ describe('POST :/api/login', () => {
 
     expect(response.statusCode).toEqual(200);
     expect(response.body).toHaveProperty('token');
+    expect(response.body).toHaveProperty(['user', 'id']);
+    expect(response.body).toHaveProperty(['user', 'email']);
+    expect(response.body).toHaveProperty(['user', 'role']);
   });
 
   it('shouldn\'t be able to login with invalid email', async () => {
@@ -41,11 +44,12 @@ describe('POST :/api/login', () => {
 
     const response = await request.post('/api/login')
       .send({
-        email: 'teste@3.com',
+        email: 'testedasilva@email.com',
         password: user.password,
       });
 
     expect(response.statusCode).toEqual(401);
+    expect(response.body.message).toBe('Invalid Field');
   });
 
   it('shouldn\'t be able to login with invalid password', async () => {
@@ -63,5 +67,6 @@ describe('POST :/api/login', () => {
       });
 
     expect(response.statusCode).toEqual(401);
+    expect(response.body.message).toBe('Invalid Field');
   });
 });

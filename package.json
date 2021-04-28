@@ -19,7 +19,7 @@
     "rollback": "npx knex migrate:rollback",
     "seed": "npx knex seed:run",
     "test": "cross-env NODE_ENV=test jest --detectOpenHandles --testTimeout=10000",
-    "test-coverage": "yarn run pretest && cross-env NODE_ENV=test jest --coverage --detectOpenHandles"
+    "test-coverage": "cross-env NODE_ENV=test jest --coverage --detectOpenHandles"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

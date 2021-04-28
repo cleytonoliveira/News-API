@@ -1,3 +1,4 @@
+const Boom = require('@hapi/boom');
 const rescue = require('express-rescue');
 const { LoginService } = require('../services');
 
@@ -17,9 +18,11 @@ const auth = rescue(async (req, res) => {
 
   const userAuth = await LoginService.auth(email, password);
 
+  if (userAuth.error) throw Boom.unauthorized(userAuth.message);
+
   return res
     .status(200)
-    .json({ token: userAuth });
+    .json(userAuth);
 });
 
 module.exports = {
