@@ -3,9 +3,12 @@ const express = require('express');
 const bodyParser = require('body-parser');
 require('dotenv/config');
 
+const routes = require('./main.routes');
+
 const app = express();
 
 app.use(helmet());
 app.use(bodyParser.json());
+app.use('/api', routes);
 
 module.exports = app;
