@@ -11,14 +11,16 @@
     "node": "12"
   },
   "scripts": {
-    "dev": "cross-env NODE_ENV=development nodemon --watch src --exec babel-node src/app.js",
+    "prestart": "npx knex migrate:rollback && npx knex migrate:latest && npx knex seed:run",
+    "dev": "cross-env NODE_ENV=development nodemon --watch src --exec babel-node src/index.js",
     "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json .",
     "lint:fix": "eslint --fix .",
     "migrate": "npx knex migrate:latest",
     "rollback": "npx knex migrate:rollback",
     "seed": "npx knex seed:run",
-    "test": "jest",
-    "test-coverage": "jest --coverage"
+    "pretest": "cross-env NODE_ENV=test yarn run prestart",
+    "test": "cross-env NODE_ENV=test jest --detectOpenHandles --testTimeout=10000",
+    "test-coverage": "yarn run pretest && cross-env NODE_ENV=test jest --coverage --detectOpenHandles"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
