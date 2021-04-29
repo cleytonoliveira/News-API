@@ -59,7 +59,8 @@ describe('Authors', () => {
         .send({
           email: 'first_author@mail.com',
           password: '12345678',
-        });
+        })
+        .expect(200);
 
       const response = await request.post('/api/admin/authors')
         .send(newAuthor)
@@ -103,7 +104,6 @@ describe('Authors', () => {
         .expect(200);
 
       const response = await request.get('/api/admin/authors')
-        .send(newAuthor)
         .set('Authorization', `${token}`);
 
       expect(response.statusCode).toEqual(200);
@@ -115,9 +115,48 @@ describe('Authors', () => {
         .send({
           email: 'first_author@mail.com',
           password: '12345678',
-        });
+        })
+        .expect(200);
 
       const response = await request.get('/api/admin/authors')
+        .set('Authorization', `${token}`);
+
+      expect(response.statusCode).toEqual(401);
+      expect(response.body.message).toBe('Only administrator can access');
+    });
+  });
+
+  describe('GET :/api/admin/authors/:id', () => {
+    beforeEach(() => {
+      shell.exec('npx knex migrate:rollback');
+      shell.exec('npx knex migrate:latest');
+      shell.exec('npx knex seed:run');
+    });
+
+    it('should be able to get author by id with successful', async () => {
+      const { body: { token } } = await request.post('/api/login')
+        .send({
+          email: user.email,
+          password: user.password,
+        })
+        .expect(200);
+
+      const response = await request.get('/api/admin/authors/2')
+        .set('Authorization', `${token}`);
+
+      expect(response.statusCode).toEqual(200);
+      expect(response.body).toStrictEqual(mockResult[1]);
+    });
+
+    it('shouldn\'t be able to get author by id if user is not admin', async () => {
+      const { body: { token } } = await request.post('/api/login')
+        .send({
+          email: 'first_author@mail.com',
+          password: '12345678',
+        })
+        .expect(200);
+
+      const response = await request.get('/api/admin/authors/2')
         .set('Authorization', `${token}`);
 
       expect(response.statusCode).toEqual(401);
