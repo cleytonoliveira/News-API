@@ -14,9 +14,17 @@ const register = async (req, res) => {
     .json(authorRegistered);
 };
 
-// const findAll = async (req, res) => {
+const findAll = async (req, res) => {
+  const { role } = req.sub;
 
-// };
+  const authors = await AuthorService.findAll(role);
+
+  if (authors.error) throw Boom.unauthorized(authors.message);
+
+  return res
+    .status(200)
+    .json(authors);
+};
 
 // const findById = async (req, res) => {
 
@@ -33,7 +41,7 @@ const register = async (req, res) => {
 module.exports = {
   register,
   // findById,
-  // findAll,
+  findAll,
   // remove,
   // update,
 };

@@ -9,9 +9,9 @@ const { authentication } = require('../middlewares');
 
 const AdminRouter = Router();
 
-// AdminRouter.get('/authors',
-//   authentication,
-//   rescue(AuthorController.findAll));
+AdminRouter.get('/authors',
+  authentication,
+  rescue(AuthorController.findAll));
 // AdminRouter.get('/authors/:id',
 //   authentication,
 //   rescue(AuthorController.findById));

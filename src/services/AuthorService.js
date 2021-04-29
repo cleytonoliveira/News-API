@@ -16,9 +16,12 @@ const register = async (name, picture, role) => {
   return { id: author.id, name, picture };
 };
 
-// const findAll = async (req, res) => {
+const findAll = async (role) => {
+  if (role !== 'admin') return notPermittedAcess;
 
-// };
+  const authors = await Author.query();
+  return authors;
+};
 
 // const findById = async (req, res) => {
 
@@ -35,7 +38,7 @@ const register = async (name, picture, role) => {
 module.exports = {
   register,
   // findById,
-  // findAll,
+  findAll,
   // remove,
   // update,
 };
