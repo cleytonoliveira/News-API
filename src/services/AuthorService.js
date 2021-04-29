@@ -1,13 +1,13 @@
+const Boom = require('@hapi/boom');
 const { Author } = require('../database/models');
 
-const notPermittedAcess = {
-  error: true,
-  message: 'Only administrator can access',
+const isAdminAccess = (role) => {
+  if (role !== 'admin') throw Boom.unauthorized('Only administrator can access');
+  return role;
 };
 
 const register = async (name, picture, role) => {
-  if (role !== 'admin') return notPermittedAcess;
-
+  isAdminAccess(role);
   const author = await Author.query().insert({
     name,
     picture,
@@ -17,15 +17,16 @@ const register = async (name, picture, role) => {
 };
 
 const findAll = async (role) => {
-  if (role !== 'admin') return notPermittedAcess;
-
+  isAdminAccess(role);
   const authors = await Author.query();
   return authors;
 };
 
-// const findById = async (req, res) => {
-
-// };
+const findById = async (id, role) => {
+  isAdminAccess(role);
+  const authorById = await Author.query().findById(id);
+  return authorById;
+};
 
 // const update = async (req, res) => {
 
@@ -37,7 +38,7 @@ const findAll = async (role) => {
 
 module.exports = {
   register,
-  // findById,
+  findById,
   findAll,
   // remove,
   // update,
