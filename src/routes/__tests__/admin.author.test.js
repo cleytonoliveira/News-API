@@ -36,6 +36,21 @@ describe('POST :/api/admin/authors', () => {
     expect(response.statusCode).toEqual(201);
   });
 
+  it('shouldn\'t be able to register a new author if user is not admin', async () => {
+    const { body: { token } } = await request.post('/api/login')
+      .send({
+        email: 'first_author@mail.com',
+        password: '12345678',
+      });
+
+    const response = await request.post('/api/admin/authors')
+      .send(newAuthor)
+      .set('Authorization', `${token}`);
+
+    expect(response.statusCode).toEqual(401);
+    expect(response.body.message).toBe('Only administrator can access');
+  });
+
   it('shouldn\'t be able to register a new author without token', async () => {
     const response = await request.post('/api/admin/authors')
       .send(newAuthor);

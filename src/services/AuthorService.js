@@ -1,5 +1,10 @@
-const register = async (req, res) => {
+const notPermittedAcess = {
+  error: true,
+  message: 'Only administrator can access',
+};
 
+const register = async (name, picture, role) => {
+  if (role !== 'admin') return notPermittedAcess;
 };
 
 // const findAll = async (req, res) => {
