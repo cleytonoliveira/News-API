@@ -1,5 +1,4 @@
 const Boom = require('@hapi/boom');
-const rescue = require('express-rescue');
 const { LoginService } = require('../services');
 
 /**
@@ -13,7 +12,7 @@ const { LoginService } = require('../services');
  * @returns {Object} Retorna dados do usuário com token
  * @throws {Object} Retorna uma chave message com o erro
  */
-const auth = rescue(async (req, res) => {
+const auth = async (req, res) => {
   const { email, password } = req.body;
 
   const userAuth = await LoginService.auth(email, password);
@@ -23,7 +22,7 @@ const auth = rescue(async (req, res) => {
   return res
     .status(200)
     .json(userAuth);
-});
+};
 
 module.exports = {
   auth,

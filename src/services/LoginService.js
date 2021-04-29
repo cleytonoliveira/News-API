@@ -10,8 +10,9 @@ const isValidField = {
  * Responsável pela lógica para autenticar e gerar token
  *
  * @param {string} email
- * @returns Retorna o token
- * @throws Erro se senha e usuário não forem correspondentes
+ * @param {string} password
+ * @returns {{ user: { id: number, email: string, role: string }, token: string } |
+ * { error: boolean, message: string } } Retorna o user com token ou erro com mensagem
  */
 const auth = async (email, password) => {
   const user = await User.query()
