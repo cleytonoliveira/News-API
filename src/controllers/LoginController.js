@@ -2,15 +2,15 @@ const Boom = require('@hapi/boom');
 const { LoginService } = require('../services');
 
 /**
- * Controler responsável por realizar o processo de autenticação
+ * Controler responsible for authentication process
  *
  * @param {Object} req
  * @param {Object} req.body
  * @param {string} req.body.email
  * @param {string} req.body.password
  * @param {Object} res
- * @returns {Object} Retorna dados do usuário com token
- * @throws {Object} Retorna uma chave message com o erro
+ * @returns {Object} Returns user data with token
+ * @throws {Object} Returns a message key with error
  */
 const auth = async (req, res) => {
   const { email, password } = req.body;

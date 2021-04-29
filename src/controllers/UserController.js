@@ -2,7 +2,7 @@ const Boom = require('@hapi/boom');
 const { UserService } = require('../services');
 
 /**
- * Controler responsável por realizar o cadastro do usuário
+ * Controler responsible for regiter a new user
  *
  * @param {Object} req
  * @param {Object} req.body
@@ -11,8 +11,8 @@ const { UserService } = require('../services');
  * @param {string} req.body.password
  * @param {string} req.body.picture
  * @param {Object} res
- * @returns {Object} Retorna dados do usuário com token
- * @throws {Object} Retorna uma chave message com o erro
+ * @returns {Object} Returns user data with token
+ * @throws {Object} Returns a message key with error
  */
 const register = async (req, res) => {
   const {

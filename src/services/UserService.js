@@ -7,13 +7,14 @@ const isEmailAlreadyRegistered = {
 };
 
 /**
- * Responsável pela lógica para autenticar e gerar token
+ * Responsible to regiter and verify regitered users
  *
  * @param {string} name
  * @param {string} email
  * @param {string} password
  * @param {string} picture
- * @returns
+ * @returns {{ user: { id: number, name: string, email: string }, token: string } |
+ * { error: boolean, message: string } } Returns user with token or error message
  */
 const register = async (name, email, password, picture) => {
   const isUserAlreadyRegistered = await User.query().findOne({ email });
