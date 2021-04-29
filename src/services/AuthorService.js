@@ -1,3 +1,5 @@
+const { Author } = require('../database/models');
+
 const notPermittedAcess = {
   error: true,
   message: 'Only administrator can access',
@@ -5,6 +7,13 @@ const notPermittedAcess = {
 
 const register = async (name, picture, role) => {
   if (role !== 'admin') return notPermittedAcess;
+
+  const author = await Author.query().insert({
+    name,
+    picture,
+  });
+
+  return { id: author.id, name, picture };
 };
 
 // const findAll = async (req, res) => {

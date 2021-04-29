@@ -2,12 +2,12 @@ const Boom = require('@hapi/boom');
 const { AuthorService } = require('../services');
 
 const register = async (req, res) => {
-  const { name, picture } = req;
+  const { name, picture } = req.body;
   const { role } = req.sub;
 
   const authorRegistered = await AuthorService.register(name, picture, role);
 
-  if (authorRegistered) throw Boom.unauthorized(authorRegistered.message);
+  if (authorRegistered.error) throw Boom.unauthorized(authorRegistered.message);
 
   return res
     .status(201)

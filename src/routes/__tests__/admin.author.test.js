@@ -34,6 +34,9 @@ describe('POST :/api/admin/authors', () => {
       .set('Authorization', `${token}`);
 
     expect(response.statusCode).toEqual(201);
+    expect(response.body).toHaveProperty('id');
+    expect(response.body).toHaveProperty('name', newAuthor.name);
+    expect(response.body).toHaveProperty('picture', newAuthor.picture);
   });
 
   it('shouldn\'t be able to register a new author if user is not admin', async () => {
