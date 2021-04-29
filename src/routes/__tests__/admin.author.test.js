@@ -15,6 +15,19 @@ const user = {
   password: '12345678',
 };
 
+const mockResult = [
+  {
+    id: 1,
+    name: 'First Author',
+    picture: 'https://i.pravatar.cc/150',
+  },
+  {
+    id: 2,
+    name: 'Second Author',
+    picture: 'https://i.pravatar.cc/150',
+  },
+];
+
 describe('Authors', () => {
   describe('POST :/api/admin/authors', () => {
     beforeEach(() => {
@@ -81,7 +94,7 @@ describe('Authors', () => {
       shell.exec('npx knex seed:run');
     });
 
-    it('should be able to get all authors', async () => {
+    it('should be able to get all authors with successful', async () => {
       const { body: { token } } = await request.post('/api/login')
         .send({
           email: user.email,
@@ -94,6 +107,21 @@ describe('Authors', () => {
         .set('Authorization', `${token}`);
 
       expect(response.statusCode).toEqual(200);
+      expect(response.body).toStrictEqual(mockResult);
+    });
+
+    it('shouldn\'t be able to get all authors if user is not admin', async () => {
+      const { body: { token } } = await request.post('/api/login')
+        .send({
+          email: 'first_author@mail.com',
+          password: '12345678',
+        });
+
+      const response = await request.get('/api/admin/authors')
+        .set('Authorization', `${token}`);
+
+      expect(response.statusCode).toEqual(401);
+      expect(response.body.message).toBe('Only administrator can access');
     });
   });
 });
