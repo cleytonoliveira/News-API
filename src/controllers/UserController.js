@@ -1,4 +1,4 @@
-// const Boom = require('@hapi/boom');
+const Boom = require('@hapi/boom');
 const { UserService } = require('../services');
 
 /**
@@ -24,7 +24,7 @@ const register = async (req, res) => {
 
   const userRegistered = await UserService.register(name, email, password, picture);
 
-  // if (userAuth.error) throw Boom.unauthorized(userAuth.message);
+  if (userRegistered.error) throw Boom.conflict(userRegistered.message);
 
   return res
     .status(201)

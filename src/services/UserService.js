@@ -1,9 +1,9 @@
 const { User } = require('../database/models');
 const { generateToken } = require('../utils');
 
-const isValidField = {
+const isEmailAlreadyRegistered = {
   error: true,
-  message: 'Invalid Field',
+  message: 'Email already registered.',
 };
 
 /**
@@ -16,6 +16,9 @@ const isValidField = {
  * @returns
  */
 const register = async (name, email, password, picture) => {
+  const isUserAlreadyRegistered = await User.query().findOne({ email });
+  if (isUserAlreadyRegistered) return isEmailAlreadyRegistered;
+
   const user = await User.query().insert({
     name,
     email,

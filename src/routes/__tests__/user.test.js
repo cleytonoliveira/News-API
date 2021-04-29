@@ -29,7 +29,7 @@ describe('POST :/api/sign-up', () => {
   });
 
   it('shouldn\'t be able to register with invalid name', async () => {
-    const response = await request.post('/api/login')
+    const response = await request.post('/api/sign-up')
       .send({
 
       });
@@ -39,7 +39,7 @@ describe('POST :/api/sign-up', () => {
   });
 
   it('shouldn\'t be able to register with invalid email', async () => {
-    const response = await request.post('/api/login')
+    const response = await request.post('/api/sign-up')
       .send({
 
       });
@@ -49,7 +49,7 @@ describe('POST :/api/sign-up', () => {
   });
 
   it('shouldn\'t be able to register with invalid password', async () => {
-    const response = await request.post('/api/login')
+    const response = await request.post('/api/sign-up')
       .send({
 
       });
@@ -59,9 +59,21 @@ describe('POST :/api/sign-up', () => {
   });
 
   it('shouldn\'t be able to register with email already registered in database', async () => {
-    const response = await request.post('/api/login')
+    await request.post('/api/sign-up')
       .send({
+        name: 'New User',
+        email: 'newuser@email.com',
+        password: '12345678',
+        picture: 'https://i.pravatar.cc/150',
+      })
+      .expect(201);
 
+    const response = await request.post('/api/sign-up')
+      .send({
+        name: 'New User',
+        email: 'newuser@email.com',
+        password: '12345678',
+        picture: 'https://i.pravatar.cc/150',
       });
 
     expect(response.statusCode).toEqual(409);
