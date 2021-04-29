@@ -43,17 +43,41 @@ describe('POST :/api/sign-up', () => {
     expect(response.body.message).toBe('"name" length must be at least 8 characters long');
   });
 
+  it('shouldn\'t be able to register without name', async () => {
+    const response = await request.post('/api/sign-up')
+      .send({
+        email: user.email,
+        password: user.password,
+        picture: user.picture,
+      });
+
+    expect(response.statusCode).toEqual(400);
+    expect(response.body.message).toBe('"name" is required');
+  });
+
   it('shouldn\'t be able to register with invalid email', async () => {
     const response = await request.post('/api/sign-up')
       .send({
         name: user.name,
-        email: 'mail@3.com',
+        email: '@mail.com',
         password: user.password,
         picture: user.picture,
       });
 
     expect(response.statusCode).toEqual(400);
     expect(response.body.message).toBe('"email" must be a valid email');
+  });
+
+  it('shouldn\'t be able to register without email', async () => {
+    const response = await request.post('/api/sign-up')
+      .send({
+        name: user.name,
+        password: user.password,
+        picture: user.picture,
+      });
+
+    expect(response.statusCode).toEqual(400);
+    expect(response.body.message).toBe('"email" is required');
   });
 
   it('shouldn\'t be able to register with invalid password', async () => {
@@ -66,7 +90,19 @@ describe('POST :/api/sign-up', () => {
       });
 
     expect(response.statusCode).toEqual(400);
-    expect(response.body.message).toBe('"password" length must be 6 characters long');
+    expect(response.body.message).toBe('"password" length must be at least 6 characters long');
+  });
+
+  it('shouldn\'t be able to register without password', async () => {
+    const response = await request.post('/api/sign-up')
+      .send({
+        name: user.name,
+        email: user.email,
+        picture: user.picture,
+      });
+
+    expect(response.statusCode).toEqual(400);
+    expect(response.body.message).toBe('"password" is required');
   });
 
   it('shouldn\'t be able to register with email already registered in database', async () => {
