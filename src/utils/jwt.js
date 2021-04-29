@@ -8,7 +8,7 @@ const jwtConfig = {
   algorithm: 'HS256',
 };
 
-const generateToken = (email, userId, role) => {
+const generateToken = (email, userId, role = 'user') => {
   const payload = {
     iss: 'News-API',
     sub: {

@@ -25,7 +25,7 @@ describe('POST :/api/sign-up', () => {
     expect(response.body).toHaveProperty('token');
     expect(response.body).toHaveProperty(['user', 'id']);
     expect(response.body).toHaveProperty(['user', 'email']);
-    expect(response.body).toHaveProperty(['user', 'role']);
+    expect(response.body).toHaveProperty(['user', 'name']);
   });
 
   it('shouldn\'t be able to register with invalid name', async () => {
