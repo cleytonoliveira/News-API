@@ -41,5 +41,15 @@ describe('POST :/api/admin/authors', () => {
       .send(newAuthor);
 
     expect(response.statusCode).toEqual(401);
+    expect(response.body.message).toBe('Token not found');
+  });
+
+  it('shouldn\'t be able to register a new author with invalid token', async () => {
+    const response = await request.post('/api/admin/authors')
+      .send(newAuthor)
+      .set('Authorization', '9999999999999');
+
+    expect(response.statusCode).toEqual(401);
+    expect(response.body.message).toBe('Invalid or expired token');
   });
 });

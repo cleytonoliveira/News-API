@@ -22,7 +22,7 @@ const generateToken = (email, userId, role = 'user') => {
 };
 
 const validateToken = (req, token) => {
-  if (!token) return Boom.unauthorized('Token not found');
+  if (!token) throw Boom.unauthorized('Token not found');
 
   try {
     const { data: { sub } } = jwt.verify(token, secret);
