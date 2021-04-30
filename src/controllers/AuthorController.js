@@ -44,14 +44,21 @@ const update = async (req, res) => {
     .json(author);
 };
 
-// const remove = async (req, res) => {
+const remove = async (req, res) => {
+  const { id } = req.params;
+  const { role } = req.sub;
 
-// };
+  const author = await AuthorService.remove(id, role);
+
+  return res
+    .status(204)
+    .json(author);
+};
 
 module.exports = {
   register,
   findById,
   findAll,
-  // remove,
+  remove,
   update,
 };

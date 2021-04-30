@@ -43,14 +43,16 @@ const update = async (id, role, name, picture) => {
   return author;
 };
 
-// const remove = async (req, res) => {
-
-// };
+const remove = async (id, role) => {
+  isAdminAccess(role);
+  const author = await Author.query().deleteById(id);
+  return author;
+};
 
 module.exports = {
   register,
   findById,
   findAll,
-  // remove,
+  remove,
   update,
 };

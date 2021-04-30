@@ -22,9 +22,9 @@ AdminRouter.put('/authors/:id',
   validateAdminFields,
   authentication,
   rescue(AuthorController.update));
-// AdminRouter.delete('/authors/:id',
-//   authentication,
-//   rescue(AuthorController.remove));
+AdminRouter.delete('/authors/:id',
+  authentication,
+  rescue(AuthorController.remove));
 
 // AdminRouter.get('/articles',
 //   authentication,

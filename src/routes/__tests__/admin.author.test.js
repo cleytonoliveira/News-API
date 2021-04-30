@@ -306,5 +306,20 @@ describe('Authors', () => {
 
       expect(response.statusCode).toEqual(204);
     });
+
+    it('shouldn\'t be able to delete author if user is not admin', async () => {
+      const { body: { token } } = await request.post('/api/login')
+        .send({
+          email: 'first_author@mail.com',
+          password: '12345678',
+        })
+        .expect(200);
+
+      const response = await request.delete('/api/admin/authors/2')
+        .set('Authorization', `${token}`);
+
+      expect(response.statusCode).toEqual(401);
+      expect(response.body.message).toBe('Only administrator can access');
+    });
   });
 });
