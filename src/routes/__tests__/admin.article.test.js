@@ -302,6 +302,66 @@ describe('Articles', () => {
       shell.exec('npx knex migrate:latest');
       shell.exec('npx knex seed:run');
     });
+
+    it('should be able to get article by id with successful', async () => {
+      const { body: { token } } = await request.post('/api/login')
+        .send({
+          email: user.email,
+          password: user.password,
+        })
+        .expect(200);
+
+      const response = await request.get('/api/admin/articles/2')
+        .set('Authorization', `${token}`);
+
+      expect(response.statusCode).toEqual(200);
+      expect(response.body).toStrictEqual(mockResult[1]);
+    });
+
+    it('shouldn\'t be able to get article by id if user is not admin', async () => {
+      const { body: { token } } = await request.post('/api/login')
+        .send({
+          email: 'first_author@mail.com',
+          password: '12345678',
+        })
+        .expect(200);
+
+      const response = await request.get('/api/admin/articles/2')
+        .set('Authorization', `${token}`);
+
+      expect(response.statusCode).toEqual(401);
+      expect(response.body.message).toBe('Only administrator can access');
+    });
+
+    it('shouldn\'t be able to get article by id without token', async () => {
+      const response = await request.get('/api/admin/articles/2');
+
+      expect(response.statusCode).toEqual(401);
+      expect(response.body.message).toBe('Token not found');
+    });
+
+    it('shouldn\'t be able to get article by id with invalid token', async () => {
+      const response = await request.get('/api/admin/articles/2')
+        .set('Authorization', '9999999999999');
+
+      expect(response.statusCode).toEqual(401);
+      expect(response.body.message).toBe('Invalid or expired token');
+    });
+
+    it('shouldn\'t be able to get article by id if user does not exist', async () => {
+      const { body: { token } } = await request.post('/api/login')
+        .send({
+          email: user.email,
+          password: user.password,
+        })
+        .expect(200);
+
+      const response = await request.get('/api/admin/articles/999')
+        .set('Authorization', `${token}`);
+
+      expect(response.statusCode).toEqual(404);
+      expect(response.body.message).toBe('Article not found');
+    });
   });
 
   describe('PUT :/api/admin/articles/:id', () => {
