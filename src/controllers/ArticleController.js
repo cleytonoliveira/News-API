@@ -19,9 +19,15 @@ const register = async (req, res) => {
     .json(articleCreated);
 };
 
-// const findAll = async (req, res) => {
+const findAll = async (req, res) => {
+  const { role } = req.sub;
 
-// };
+  const articles = await ArticleService.findAll(role);
+
+  return res
+    .status(200)
+    .json(articles);
+};
 
 // const findById = async (req, res) => {
 
@@ -38,7 +44,7 @@ const register = async (req, res) => {
 module.exports = {
   register,
   // findById,
-  // findAll,
+  findAll,
   // remove,
   // update,
 };

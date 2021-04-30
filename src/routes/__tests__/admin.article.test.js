@@ -20,7 +20,32 @@ const user = {
 };
 
 const mockResult = [
-
+  {
+    id: 1,
+    title: 'Article',
+    category: 'Category',
+    summary: 'This is a summary of the article',
+    firstParagraph: '<p>This is the first paragraph of this article</p>',
+    body: '<div><p>Second paragraph</p><p>Third paragraph</p></div>',
+    author: {
+      id: 1,
+      name: 'First Author',
+      picture: 'https://i.pravatar.cc/150',
+    },
+  },
+  {
+    id: 2,
+    title: 'Article',
+    category: 'Category',
+    summary: 'This is a summary of the article',
+    firstParagraph: '<p>This is the first paragraph of this article</p>',
+    body: '<div><p>Second paragraph</p><p>Third paragraph</p></div>',
+    author: {
+      id: 2,
+      name: 'Second Author',
+      picture: 'https://i.pravatar.cc/150',
+    },
+  },
 ];
 
 describe('Articles', () => {

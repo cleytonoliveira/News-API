@@ -16,7 +16,7 @@ class Article extends Model {
         relation: Model.BelongsToOneRelation,
         modelClass: Author,
         join: {
-          from: 'articles.author_id',
+          from: 'articles.authorId',
           to: 'authors.id',
         },
       },

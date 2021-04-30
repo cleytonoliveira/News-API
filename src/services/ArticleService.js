@@ -9,9 +9,13 @@ const register = async (title, category, summary, firstParagraph, body, authorId
   return newArticle;
 };
 
-// const findAll = async (req, res) => {
-
-// };
+const findAll = async (role) => {
+  isAdminAccess(role);
+  const authors = await Article.query()
+    .select('id', 'title', 'category', 'summary', 'firstParagraph', 'body')
+    .withGraphFetched('author');
+  return authors;
+};
 
 // const findById = async (req, res) => {
 
@@ -28,7 +32,7 @@ const register = async (title, category, summary, firstParagraph, body, authorId
 module.exports = {
   register,
   // findById,
-  // findAll,
+  findAll,
   // remove,
   // update,
 };

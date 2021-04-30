@@ -29,9 +29,9 @@ AdminRouter.delete('/authors/:id',
   authentication,
   rescue(AuthorController.remove));
 
-// AdminRouter.get('/articles',
-//   authentication,
-//   rescue(ArticleController.findAll));
+AdminRouter.get('/articles',
+  authentication,
+  rescue(ArticleController.findAll));
 // AdminRouter.get('/articles/:id',
 //   authentication,
 //   rescue(ArticleController.findById));
