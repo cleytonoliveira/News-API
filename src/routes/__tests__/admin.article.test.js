@@ -19,9 +19,9 @@ const user = {
   password: '12345678',
 };
 
-// const mockResult = [
+const mockResult = [
 
-// ];
+];
 
 describe('Articles', () => {
   describe('POST :/api/admin/articles', () => {
@@ -223,6 +223,21 @@ describe('Articles', () => {
       shell.exec('npx knex migrate:rollback');
       shell.exec('npx knex migrate:latest');
       shell.exec('npx knex seed:run');
+    });
+
+    it('should be able to get all articles with successful', async () => {
+      const { body: { token } } = await request.post('/api/login')
+        .send({
+          email: user.email,
+          password: user.password,
+        })
+        .expect(200);
+
+      const response = await request.get('/api/admin/articles')
+        .set('Authorization', `${token}`);
+
+      expect(response.statusCode).toEqual(200);
+      expect(response.body).toStrictEqual(mockResult);
     });
   });
 
