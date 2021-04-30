@@ -285,4 +285,26 @@ describe('Authors', () => {
       expect(response.body.message).toBe('"picture" is required');
     });
   });
+
+  describe('DELETE :/api/admin/authors/:id', () => {
+    beforeEach(() => {
+      shell.exec('npx knex migrate:rollback');
+      shell.exec('npx knex migrate:latest');
+      shell.exec('npx knex seed:run');
+    });
+
+    it('should be able to update name of author with successful', async () => {
+      const { body: { token } } = await request.post('/api/login')
+        .send({
+          email: user.email,
+          password: user.password,
+        })
+        .expect(200);
+
+      const response = await request.delete('/api/admin/authors/2')
+        .set('Authorization', `${token}`);
+
+      expect(response.statusCode).toEqual(204);
+    });
+  });
 });
