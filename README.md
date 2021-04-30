@@ -25,8 +25,9 @@ Project configured to use Node `v12.20.0`.
 
 1. Clone with `git clone`
 2. Install dependencies with `yarn install`
-3. Create database, tables and populate with `yarn run prestart`
-4. Run the project with `yarn run dev`
+3. Create a file `.env` like the `.env.example`
+4. Create database, tables and populate with `yarn run prestart`
+5. Run the project with `yarn run dev`
 
 ## How to create a production project?
 ---
