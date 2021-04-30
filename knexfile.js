@@ -1,3 +1,4 @@
+const { knexSnakeCaseMappers } = require('objection');
 require('dotenv/config');
 
 module.exports = {
@@ -20,6 +21,7 @@ module.exports = {
     seeds: {
       directory: './src/database/seeds',
     },
+    ...knexSnakeCaseMappers(),
   },
   test: {
     client: 'postgresql',
@@ -40,5 +42,6 @@ module.exports = {
     seeds: {
       directory: './src/database/seeds',
     },
+    ...knexSnakeCaseMappers(),
   },
 };
