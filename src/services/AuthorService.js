@@ -6,6 +6,10 @@ const isAdminAccess = (role) => {
   return role;
 };
 
+const isAuthorIdExists = (authorById) => {
+  if (!authorById) throw Boom.notFound('Author not found');
+};
+
 const register = async (name, picture, role) => {
   isAdminAccess(role);
   const author = await Author.query().insert({
@@ -25,6 +29,7 @@ const findAll = async (role) => {
 const findById = async (id, role) => {
   isAdminAccess(role);
   const authorById = await Author.query().findById(id);
+  isAuthorIdExists(authorById);
   return authorById;
 };
 
