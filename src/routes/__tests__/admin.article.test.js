@@ -239,6 +239,36 @@ describe('Articles', () => {
       expect(response.statusCode).toEqual(200);
       expect(response.body).toStrictEqual(mockResult);
     });
+
+    it('shouldn\'t be able to get all articles if user is not admin', async () => {
+      const { body: { token } } = await request.post('/api/login')
+        .send({
+          email: 'first_author@mail.com',
+          password: '12345678',
+        })
+        .expect(200);
+
+      const response = await request.get('/api/admin/articles')
+        .set('Authorization', `${token}`);
+
+      expect(response.statusCode).toEqual(401);
+      expect(response.body.message).toBe('Only administrator can access');
+    });
+
+    it('shouldn\'t be able to get all articles without token', async () => {
+      const response = await request.get('/api/admin/articles');
+
+      expect(response.statusCode).toEqual(401);
+      expect(response.body.message).toBe('Token not found');
+    });
+
+    it('shouldn\'t be able to get all articles with invalid token', async () => {
+      const response = await request.get('/api/admin/articles')
+        .set('Authorization', '9999999999999');
+
+      expect(response.statusCode).toEqual(401);
+      expect(response.body.message).toBe('Invalid or expired token');
+    });
   });
 
   describe('GET :/api/admin/articles/:id', () => {
