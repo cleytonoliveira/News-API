@@ -26,7 +26,7 @@ module.exports = {
   test: {
     client: 'postgresql',
     connection: {
-      database: process.env.POSTGRES_DB,
+      database: 'newsApi_test',
       user: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       host: process.env.HOST,
