@@ -370,6 +370,199 @@ describe('Articles', () => {
       shell.exec('npx knex migrate:latest');
       shell.exec('npx knex seed:run');
     });
+
+    it('should be able to update name of author with successful', async () => {
+      const { body: { token } } = await request.post('/api/login')
+        .send({
+          email: user.email,
+          password: user.password,
+        })
+        .expect(200);
+
+      const response = await request.put('/api/admin/articles/2')
+        .send({
+          title: 'My Article Update',
+          category: 'Update my Category',
+          summary: 'Update this summary of the article with success.',
+          firstParagraph: '<p>My paragraph with new update</p>',
+          body: '<div><p>Now, I updated the Second paragraph</p><p> Then, I updated the Third paragraph</p></div>',
+          authorId: 2,
+        })
+        .set('Authorization', `${token}`);
+
+      expect(response.statusCode).toEqual(200);
+      expect(response.body.id).toBe(2);
+      expect(response.body.title).toBe('My Article Update');
+      expect(response.body.category).toBe('Update my Category');
+      expect(response.body.summary).toBe('Update this summary of the article with success.');
+      expect(response.body.firstParagraph).toBe('<p>My paragraph with new update</p>');
+      expect(response.body.body).toBe('<div><p>Now, I updated the Second paragraph</p><p> Then, I updated the Third paragraph</p></div>');
+      expect(response.body.authorId).toBe(2);
+    });
+
+    it('shouldn\'t be able to update article if user is not admin', async () => {
+      const { body: { token } } = await request.post('/api/login')
+        .send({
+          email: 'first_author@mail.com',
+          password: '12345678',
+        })
+        .expect(200);
+
+      const response = await request.put('/api/admin/articles/2')
+        .send({
+          title: 'My Article Update',
+          category: 'Update my Category',
+          summary: 'Update this summary of the article with success.',
+          firstParagraph: '<p>My paragraph with new update</p>',
+          body: '<div><p>Now, I updated the Second paragraph</p><p> Then, I updated the Third paragraph</p></div>',
+          authorId: 2,
+        })
+        .set('Authorization', `${token}`);
+
+      expect(response.statusCode).toEqual(401);
+      expect(response.body.message).toBe('Only administrator can access');
+    });
+
+    it('shouldn\'t be able to update article without token', async () => {
+      const response = await request.put('/api/admin/articles/2')
+        .send({
+          title: 'My Article Update',
+          category: 'Update my Category',
+          summary: 'Update this summary of the article with success.',
+          firstParagraph: '<p>My paragraph with new update</p>',
+          body: '<div><p>Now, I updated the Second paragraph</p><p> Then, I updated the Third paragraph</p></div>',
+          authorId: 2,
+        });
+
+      expect(response.statusCode).toEqual(401);
+      expect(response.body.message).toBe('Token not found');
+    });
+
+    it('shouldn\'t be able to update author with invalid token', async () => {
+      const response = await request.put('/api/admin/articles/2')
+        .send({
+          title: 'My Article Update',
+          category: 'Update my Category',
+          summary: 'Update this summary of the article with success.',
+          firstParagraph: '<p>My paragraph with new update</p>',
+          body: '<div><p>Now, I updated the Second paragraph</p><p> Then, I updated the Third paragraph</p></div>',
+          authorId: 2,
+        })
+        .set('Authorization', '9999999999999');
+
+      expect(response.statusCode).toEqual(401);
+      expect(response.body.message).toBe('Invalid or expired token');
+    });
+
+    it('shouldn\'t be able to update without title', async () => {
+      const { body: { token } } = await request.post('/api/login')
+        .send({
+          email: user.email,
+          password: user.password,
+        })
+        .expect(200);
+
+      const response = await request.put('/api/admin/articles/2')
+        .send({
+          category: 'Update my Category',
+          summary: 'Update this summary of the article with success.',
+          firstParagraph: '<p>My paragraph with new update</p>',
+          body: '<div><p>Now, I updated the Second paragraph</p><p> Then, I updated the Third paragraph</p></div>',
+          authorId: 2,
+        })
+        .set('Authorization', `${token}`);
+
+      expect(response.statusCode).toEqual(400);
+      expect(response.body.message).toBe('"title" is required');
+    });
+
+    it('shouldn\'t be able to update without category', async () => {
+      const { body: { token } } = await request.post('/api/login')
+        .send({
+          email: user.email,
+          password: user.password,
+        })
+        .expect(200);
+
+      const response = await request.put('/api/admin/articles/2')
+        .send({
+          title: 'My Article Update',
+          summary: 'Update this summary of the article with success.',
+          firstParagraph: '<p>My paragraph with new update</p>',
+          body: '<div><p>Now, I updated the Second paragraph</p><p> Then, I updated the Third paragraph</p></div>',
+          authorId: 2,
+        })
+        .set('Authorization', `${token}`);
+
+      expect(response.statusCode).toEqual(400);
+      expect(response.body.message).toBe('"category" is required');
+    });
+
+    it('shouldn\'t be able to update without first paragraph', async () => {
+      const { body: { token } } = await request.post('/api/login')
+        .send({
+          email: user.email,
+          password: user.password,
+        })
+        .expect(200);
+
+      const response = await request.put('/api/admin/articles/2')
+        .send({
+          title: 'My Article Update',
+          category: 'Update my Category',
+          summary: 'Update this summary of the article with success.',
+          body: '<div><p>Now, I updated the Second paragraph</p><p> Then, I updated the Third paragraph</p></div>',
+          authorId: 2,
+        })
+        .set('Authorization', `${token}`);
+
+      expect(response.statusCode).toEqual(400);
+      expect(response.body.message).toBe('"firstParagraph" is required');
+    });
+
+    it('shouldn\'t be able to update without body', async () => {
+      const { body: { token } } = await request.post('/api/login')
+        .send({
+          email: user.email,
+          password: user.password,
+        })
+        .expect(200);
+
+      const response = await request.put('/api/admin/articles/2')
+        .send({
+          title: 'My Article Update',
+          category: 'Update my Category',
+          summary: 'Update this summary of the article with success.',
+          firstParagraph: '<p>My paragraph with new update</p>',
+          authorId: 2,
+        })
+        .set('Authorization', `${token}`);
+
+      expect(response.statusCode).toEqual(400);
+      expect(response.body.message).toBe('"body" is required');
+    });
+
+    it('shouldn\'t be able to update without author id', async () => {
+      const { body: { token } } = await request.post('/api/login')
+        .send({
+          email: user.email,
+          password: user.password,
+        })
+        .expect(200);
+
+      const response = await request.put('/api/admin/articles/2')
+        .send({
+          title: 'My Article Update',
+          category: 'Update my Category',
+          summary: 'Update this summary of the article with success.',
+          firstParagraph: '<p>My paragraph with new update</p>',
+          body: '<div><p>Now, I updated the Second paragraph</p><p> Then, I updated the Third paragraph</p></div>',
+        })
+        .set('Authorization', `${token}`);
+
+      expect(response.statusCode).toEqual(400);
+      expect(response.body.message).toBe('"authorId" is required');
+    });
   });
 
   describe('DELETE :/api/admin/articles/:id', () => {

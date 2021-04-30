@@ -186,7 +186,7 @@ describe('Authors', () => {
       shell.exec('npx knex seed:run');
     });
 
-    it('should be able to update name of author with successful', async () => {
+    it('should be able to update name and picture of author with successful', async () => {
       const { body: { token } } = await request.post('/api/login')
         .send({
           email: user.email,
