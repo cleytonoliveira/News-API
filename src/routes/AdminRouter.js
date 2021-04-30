@@ -9,6 +9,9 @@ const { authentication, validateAuthorFields, validateArticleFields } = require(
 
 const AdminRouter = Router();
 
+/**
+ * Routes for Authors
+ */
 AdminRouter.get('/authors',
   authentication,
   rescue(AuthorController.findAll));
@@ -29,12 +32,16 @@ AdminRouter.delete('/authors/:id',
   authentication,
   rescue(AuthorController.remove));
 
+/**
+ * Routes for Article
+ */
 AdminRouter.get('/articles',
   authentication,
   rescue(ArticleController.findAll));
-// AdminRouter.get('/articles/:id',
-//   authentication,
-//   rescue(ArticleController.findById));
+AdminRouter.get('/articles/:id',
+  authentication,
+  rescue(ArticleController.findById));
+
 AdminRouter.post('/articles',
   validateArticleFields,
   authentication,

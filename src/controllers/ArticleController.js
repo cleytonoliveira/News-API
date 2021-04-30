@@ -29,9 +29,16 @@ const findAll = async (req, res) => {
     .json(articles);
 };
 
-// const findById = async (req, res) => {
+const findById = async (req, res) => {
+  const { id } = req.params;
+  const { role } = req.sub;
 
-// };
+  const articleById = await ArticleService.findById(id, role);
+
+  return res
+    .status(200)
+    .json(articleById);
+};
 
 // const update = async (req, res) => {
 
@@ -43,7 +50,7 @@ const findAll = async (req, res) => {
 
 module.exports = {
   register,
-  // findById,
+  findById,
   findAll,
   // remove,
   // update,

@@ -1,5 +1,5 @@
 const { Article } = require('../database/models');
-const { isAdminAccess } = require('../utils');
+const { isAdminAccess, isArticleIdExists } = require('../utils');
 
 const register = async (title, category, summary, firstParagraph, body, authorId, role) => {
   isAdminAccess(role);
@@ -11,15 +11,21 @@ const register = async (title, category, summary, firstParagraph, body, authorId
 
 const findAll = async (role) => {
   isAdminAccess(role);
-  const authors = await Article.query()
+  const articles = await Article.query()
     .select('id', 'title', 'category', 'summary', 'firstParagraph', 'body')
     .withGraphFetched('author');
-  return authors;
+  return articles;
 };
 
-// const findById = async (req, res) => {
-
-// };
+const findById = async (id, role) => {
+  isAdminAccess(role);
+  const articleById = await Article.query()
+    .select('id', 'title', 'category', 'summary', 'firstParagraph', 'body')
+    .findById(id)
+    .withGraphFetched('author');
+  isArticleIdExists(articleById);
+  return articleById;
+};
 
 // const update = async (req, res) => {
 
@@ -31,7 +37,7 @@ const findAll = async (role) => {
 
 module.exports = {
   register,
-  // findById,
+  findById,
   findAll,
   // remove,
   // update,
