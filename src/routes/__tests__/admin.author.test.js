@@ -162,5 +162,20 @@ describe('Authors', () => {
       expect(response.statusCode).toEqual(401);
       expect(response.body.message).toBe('Only administrator can access');
     });
+
+    it('shouldn\'t be able to get author by id if user does not exist', async () => {
+      const { body: { token } } = await request.post('/api/login')
+        .send({
+          email: user.email,
+          password: user.password,
+        })
+        .expect(200);
+
+      const response = await request.get('/api/admin/authors/999')
+        .set('Authorization', `${token}`);
+
+      expect(response.statusCode).toEqual(404);
+      expect(response.body.message).toBe('Author not found');
+    });
   });
 });
