@@ -1,9 +1,10 @@
+const Boom = require('@hapi/boom');
 const { User } = require('../database/models');
 const { generateToken } = require('../utils');
 
-const isEmailAlreadyRegistered = {
-  error: true,
-  message: 'Email already registered.',
+const isEmailAlreadyRegistered = async (email) => {
+  const isUserAlreadyRegistered = await User.query().findOne({ email });
+  if (isUserAlreadyRegistered) throw Boom.conflict('Email already registered.');
 };
 
 /**
@@ -17,8 +18,7 @@ const isEmailAlreadyRegistered = {
  * { error: boolean, message: string } } Returns user with token or error message
  */
 const register = async (name, email, password, picture) => {
-  const isUserAlreadyRegistered = await User.query().findOne({ email });
-  if (isUserAlreadyRegistered) return isEmailAlreadyRegistered;
+  await isEmailAlreadyRegistered(email);
 
   const user = await User.query().insert({
     name,

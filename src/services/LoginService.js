@@ -1,9 +1,11 @@
+const Boom = require('@hapi/boom');
+
 const { User } = require('../database/models');
 const { generateToken } = require('../utils');
 
-const isValidField = {
-  error: true,
-  message: 'Invalid Field',
+const isValidField = (user) => {
+  if (!user) throw Boom.unauthorized('Invalid Field');
+  return user;
 };
 
 /**
@@ -20,10 +22,8 @@ const auth = async (email, password) => {
     .findOne({ email })
     .where({ password });
 
-  if (!user) return isValidField;
-
+  isValidField(user);
   const token = generateToken(email, user.id, user.role);
-
   return { user, token };
 };
 

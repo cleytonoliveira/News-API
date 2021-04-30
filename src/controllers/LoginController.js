@@ -1,4 +1,3 @@
-const Boom = require('@hapi/boom');
 const { LoginService } = require('../services');
 
 /**
@@ -16,8 +15,6 @@ const auth = async (req, res) => {
   const { email, password } = req.body;
 
   const userAuth = await LoginService.auth(email, password);
-
-  if (userAuth.error) throw Boom.unauthorized(userAuth.message);
 
   return res
     .status(200)
