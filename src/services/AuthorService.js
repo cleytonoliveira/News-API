@@ -1,14 +1,5 @@
-const Boom = require('@hapi/boom');
 const { Author } = require('../database/models');
-
-const isAdminAccess = (role) => {
-  if (role !== 'admin') throw Boom.unauthorized('Only administrator can access');
-  return role;
-};
-
-const isAuthorIdExists = (authorById) => {
-  if (!authorById) throw Boom.notFound('Author not found');
-};
+const { isAdminAccess, isAuthorIdExists } = require('../utils');
 
 const register = async (name, picture, role) => {
   isAdminAccess(role);

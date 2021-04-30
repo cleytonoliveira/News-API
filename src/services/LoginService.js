@@ -1,12 +1,5 @@
-const Boom = require('@hapi/boom');
-
 const { User } = require('../database/models');
-const { generateToken } = require('../utils');
-
-const isValidField = (user) => {
-  if (!user) throw Boom.unauthorized('Invalid Field');
-  return user;
-};
+const { generateToken, isValidField } = require('../utils');
 
 /**
  * Responsible for authenticate and generate token

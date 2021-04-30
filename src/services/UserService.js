@@ -1,11 +1,5 @@
-const Boom = require('@hapi/boom');
 const { User } = require('../database/models');
-const { generateToken } = require('../utils');
-
-const isEmailAlreadyRegistered = async (email) => {
-  const isUserAlreadyRegistered = await User.query().findOne({ email });
-  if (isUserAlreadyRegistered) throw Boom.conflict('Email already registered.');
-};
+const { generateToken, isEmailAlreadyRegistered } = require('../utils');
 
 /**
  * Responsible to regiter and verify regitered users
