@@ -3,7 +3,7 @@ const rescue = require('express-rescue');
 
 const {
   AuthorController,
-  // ArticleController
+  ArticleController,
 } = require('../controllers');
 const { authentication, validateAdminFields } = require('../middlewares');
 
@@ -15,13 +15,16 @@ AdminRouter.get('/authors',
 AdminRouter.get('/authors/:id',
   authentication,
   rescue(AuthorController.findById));
+
 AdminRouter.post('/authors',
   authentication,
   rescue(AuthorController.register));
+
 AdminRouter.put('/authors/:id',
   validateAdminFields,
   authentication,
   rescue(AuthorController.update));
+
 AdminRouter.delete('/authors/:id',
   authentication,
   rescue(AuthorController.remove));
@@ -32,9 +35,9 @@ AdminRouter.delete('/authors/:id',
 // AdminRouter.get('/articles/:id',
 //   authentication,
 //   rescue(ArticleController.findById));
-// AdminRouter.post('/articles',
-//   authentication,
-//   rescue(ArticleController.register));
+AdminRouter.post('/articles',
+  authentication,
+  rescue(ArticleController.register));
 // AdminRouter.put('/articles/:id',
 //   authentication,
 //   rescue(ArticleController.update));
