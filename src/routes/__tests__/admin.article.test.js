@@ -110,7 +110,7 @@ describe('Articles', () => {
       expect(response.body.message).toBe('Invalid or expired token');
     });
 
-    it('shouldn\'t be able to update without title', async () => {
+    it('shouldn\'t be able to register without title', async () => {
       const { body: { token } } = await request.post('/api/login')
         .send({
           email: user.email,
@@ -132,7 +132,7 @@ describe('Articles', () => {
       expect(response.body.message).toBe('"title" is required');
     });
 
-    it('shouldn\'t be able to update without category', async () => {
+    it('shouldn\'t be able to register without category', async () => {
       const { body: { token } } = await request.post('/api/login')
         .send({
           email: user.email,
@@ -154,7 +154,7 @@ describe('Articles', () => {
       expect(response.body.message).toBe('"category" is required');
     });
 
-    it('shouldn\'t be able to update without summary', async () => {
+    it('shouldn\'t be able to register without summary', async () => {
       const { body: { token } } = await request.post('/api/login')
         .send({
           email: user.email,
@@ -176,7 +176,7 @@ describe('Articles', () => {
       expect(response.body.message).toBe('"summary" is required');
     });
 
-    it('shouldn\'t be able to update without first paragraph', async () => {
+    it('shouldn\'t be able to register without first paragraph', async () => {
       const { body: { token } } = await request.post('/api/login')
         .send({
           email: user.email,
@@ -198,7 +198,7 @@ describe('Articles', () => {
       expect(response.body.message).toBe('"firstParagraph" is required');
     });
 
-    it('shouldn\'t be able to update without body', async () => {
+    it('shouldn\'t be able to register without body', async () => {
       const { body: { token } } = await request.post('/api/login')
         .send({
           email: user.email,
@@ -220,7 +220,7 @@ describe('Articles', () => {
       expect(response.body.message).toBe('"body" is required');
     });
 
-    it('shouldn\'t be able to update without author id', async () => {
+    it('shouldn\'t be able to register without author id', async () => {
       const { body: { token } } = await request.post('/api/login')
         .send({
           email: user.email,
@@ -371,7 +371,7 @@ describe('Articles', () => {
       shell.exec('npx knex seed:run');
     });
 
-    it('should be able to update name of author with successful', async () => {
+    it('should be able to update a article with successful', async () => {
       const { body: { token } } = await request.post('/api/login')
         .send({
           email: user.email,
@@ -438,7 +438,7 @@ describe('Articles', () => {
       expect(response.body.message).toBe('Token not found');
     });
 
-    it('shouldn\'t be able to update author with invalid token', async () => {
+    it('shouldn\'t be able to update article with invalid token', async () => {
       const response = await request.put('/api/admin/articles/2')
         .send({
           title: 'My Article Update',
@@ -570,6 +570,35 @@ describe('Articles', () => {
       shell.exec('npx knex migrate:rollback');
       shell.exec('npx knex migrate:latest');
       shell.exec('npx knex seed:run');
+    });
+
+    it('should be able to delete article with successful', async () => {
+      const { body: { token } } = await request.post('/api/login')
+        .send({
+          email: user.email,
+          password: user.password,
+        })
+        .expect(200);
+
+      const response = await request.delete('/api/admin/articles/2')
+        .set('Authorization', `${token}`);
+
+      expect(response.statusCode).toEqual(204);
+    });
+
+    it('shouldn\'t be able to delete article if user is not admin', async () => {
+      const { body: { token } } = await request.post('/api/login')
+        .send({
+          email: 'first_author@mail.com',
+          password: '12345678',
+        })
+        .expect(200);
+
+      const response = await request.delete('/api/admin/articles/2')
+        .set('Authorization', `${token}`);
+
+      expect(response.statusCode).toEqual(401);
+      expect(response.body.message).toBe('Only administrator can access');
     });
   });
 });
