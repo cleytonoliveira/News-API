@@ -5,7 +5,7 @@ const {
   AuthorController,
   ArticleController,
 } = require('../controllers');
-const { authentication, validateAdminFields } = require('../middlewares');
+const { authentication, validateAuthorFields, validateArticleFields } = require('../middlewares');
 
 const AdminRouter = Router();
 
@@ -21,7 +21,7 @@ AdminRouter.post('/authors',
   rescue(AuthorController.register));
 
 AdminRouter.put('/authors/:id',
-  validateAdminFields,
+  validateAuthorFields,
   authentication,
   rescue(AuthorController.update));
 
@@ -36,6 +36,7 @@ AdminRouter.delete('/authors/:id',
 //   authentication,
 //   rescue(ArticleController.findById));
 AdminRouter.post('/articles',
+  validateArticleFields,
   authentication,
   rescue(ArticleController.register));
 // AdminRouter.put('/articles/:id',
