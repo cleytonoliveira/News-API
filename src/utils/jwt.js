@@ -30,7 +30,6 @@ const validateToken = (req, token) => {
   } catch (err) {
     throw Boom.unauthorized('Invalid or expired token');
   }
-  return true;
 };
 
 module.exports = {

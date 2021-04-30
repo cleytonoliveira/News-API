@@ -63,7 +63,19 @@ const remove = async (req, res) => {
     .json(article);
 };
 
+const findByIdAnonymous = async (req, res) => {
+  const { id } = req.params;
+  const { role } = req.sub;
+
+  const article = await ArticleService.findByIdAnonymous(id, role);
+
+  return res
+    .status(200)
+    .json(article);
+};
+
 module.exports = {
+  findByIdAnonymous,
   register,
   findById,
   findAll,

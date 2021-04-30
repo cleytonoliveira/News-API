@@ -1,5 +1,5 @@
 const { Article } = require('../database/models');
-const { isAdminAccess, isArticleIdExists } = require('../utils');
+const { isAdminAccess, isArticleIdExists, isAnonymousUser } = require('../utils');
 
 const register = async (title, category, summary, firstParagraph, body, authorId, role) => {
   isAdminAccess(role);
@@ -51,7 +51,10 @@ const remove = async (id, role) => {
   return article;
 };
 
+const findByIdAnonymous = async (id, role) => isAnonymousUser(id, role);
+
 module.exports = {
+  findByIdAnonymous,
   register,
   findById,
   findAll,

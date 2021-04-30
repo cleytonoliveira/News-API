@@ -3,7 +3,7 @@ const {
   LoginRouter,
   UserRouter,
   AdminRouter,
-  // ArticleRouter,
+  ArticleRouter,
 } = require('./routes');
 
 const routes = Router();
@@ -11,6 +11,6 @@ const routes = Router();
 routes.use('/login', LoginRouter);
 routes.use('/sign-up', UserRouter);
 routes.use('/admin', AdminRouter);
-// routes.use('/articles', ArticleRouter);
+routes.use('/articles', ArticleRouter);
 
 module.exports = routes;

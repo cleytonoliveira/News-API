@@ -3,6 +3,7 @@ const validateAuthorFields = require('./validateAuthorFields');
 const validateUserFields = require('./validateUserFields');
 const authentication = require('./authentication');
 const handleError = require('./handleError');
+const authAnonymous = require('./authAnonymous');
 
 module.exports = {
   validateArticleFields,
@@ -10,4 +11,5 @@ module.exports = {
   validateUserFields,
   authentication,
   handleError,
+  authAnonymous,
 };
