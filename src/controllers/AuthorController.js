@@ -32,9 +32,17 @@ const findById = async (req, res) => {
     .json(authorById);
 };
 
-// const update = async (req, res) => {
+const update = async (req, res) => {
+  const { id } = req.params;
+  const { name, picture } = req.body;
+  const { role } = req.sub;
 
-// };
+  const author = await AuthorService.update(id, role, name, picture);
+
+  return res
+    .status(200)
+    .json(author);
+};
 
 // const remove = async (req, res) => {
 
@@ -45,5 +53,5 @@ module.exports = {
   findById,
   findAll,
   // remove,
-  // update,
+  update,
 };

@@ -33,9 +33,15 @@ const findById = async (id, role) => {
   return authorById;
 };
 
-// const update = async (req, res) => {
-
-// };
+const update = async (id, role, name, picture) => {
+  isAdminAccess(role);
+  const author = await Author.query()
+    .patchAndFetchById(id, {
+      name,
+      picture,
+    });
+  return author;
+};
 
 // const remove = async (req, res) => {
 
@@ -46,5 +52,5 @@ module.exports = {
   findById,
   findAll,
   // remove,
-  // update,
+  update,
 };

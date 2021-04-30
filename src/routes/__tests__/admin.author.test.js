@@ -197,10 +197,14 @@ describe('Authors', () => {
       const response = await request.put('/api/admin/authors/2')
         .send({
           name: 'Change to New Name',
+          picture: 'mynewpicture.jpg',
         })
         .set('Authorization', `${token}`);
 
       expect(response.statusCode).toEqual(200);
+      expect(response.body.id).toBe(2);
+      expect(response.body.name).toBe('Change to New Name');
+      expect(response.body.picture).toBe('mynewpicture.jpg');
     });
 
     it('shouldn\'t be able to update author if user is not admin', async () => {
@@ -212,6 +216,10 @@ describe('Authors', () => {
         .expect(200);
 
       const response = await request.put('/api/admin/authors/2')
+        .send({
+          name: 'Change to New Name',
+          picture: 'mynewpicture.jpg',
+        })
         .set('Authorization', `${token}`);
 
       expect(response.statusCode).toEqual(401);
@@ -222,7 +230,8 @@ describe('Authors', () => {
       const response = await request.put('/api/admin/authors/2')
         .send({
           name: 'Change to New Name',
-        })
+          picture: 'mynewpicture.jpg',
+        });
 
       expect(response.statusCode).toEqual(401);
       expect(response.body.message).toBe('Token not found');
@@ -232,11 +241,48 @@ describe('Authors', () => {
       const response = await request.put('/api/admin/authors/2')
         .send({
           name: 'Change to New Name',
+          picture: 'mynewpicture.jpg',
         })
         .set('Authorization', '9999999999999');
 
       expect(response.statusCode).toEqual(401);
       expect(response.body.message).toBe('Invalid or expired token');
+    });
+
+    it('shouldn\'t be able to update without name', async () => {
+      const { body: { token } } = await request.post('/api/login')
+        .send({
+          email: user.email,
+          password: user.password,
+        })
+        .expect(200);
+
+      const response = await request.put('/api/admin/authors/2')
+        .send({
+          picture: 'mynewpicture.jpg',
+        })
+        .set('Authorization', `${token}`);
+
+      expect(response.statusCode).toEqual(400);
+      expect(response.body.message).toBe('"name" is required');
+    });
+
+    it('shouldn\'t be able to update without picture', async () => {
+      const { body: { token } } = await request.post('/api/login')
+        .send({
+          email: user.email,
+          password: user.password,
+        })
+        .expect(200);
+
+      const response = await request.put('/api/admin/authors/2')
+        .send({
+          name: 'Change to New Name',
+        })
+        .set('Authorization', `${token}`);
+
+      expect(response.statusCode).toEqual(400);
+      expect(response.body.message).toBe('"picture" is required');
     });
   });
 });

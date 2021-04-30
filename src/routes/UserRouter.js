@@ -2,12 +2,12 @@ const { Router } = require('express');
 const rescue = require('express-rescue');
 
 const { UserController } = require('../controllers');
-const { validateFields } = require('../middlewares');
+const { validateUserFields } = require('../middlewares');
 
 const UserRouter = Router();
 
 UserRouter.post('/',
-  validateFields,
+  validateUserFields,
   rescue(UserController.register));
 
 module.exports = UserRouter;
