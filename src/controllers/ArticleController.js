@@ -52,14 +52,21 @@ const update = async (req, res) => {
     .json(article);
 };
 
-// const remove = async (req, res) => {
+const remove = async (req, res) => {
+  const { id } = req.params;
+  const { role } = req.sub;
 
-// };
+  const article = await ArticleService.remove(id, role);
+
+  return res
+    .status(204)
+    .json(article);
+};
 
 module.exports = {
   register,
   findById,
   findAll,
-  // remove,
+  remove,
   update,
 };

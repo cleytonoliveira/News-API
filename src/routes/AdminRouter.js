@@ -52,8 +52,8 @@ AdminRouter.put('/articles/:id',
   authentication,
   rescue(ArticleController.update));
 
-// AdminRouter.delete('/articles/:id',
-//   authentication,
-//   rescue(ArticleController.remove));
+AdminRouter.delete('/articles/:id',
+  authentication,
+  rescue(ArticleController.remove));
 
 module.exports = AdminRouter;
