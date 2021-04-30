@@ -16,7 +16,7 @@ Project developed by Cleyton Oliveira, as a technical challenge from Jungle Devs
 - Boom
 - JWT
 - ESLint
-## How to start the project
+## How to start the project?
 ---
 
 ### Installation and Setup Instructions
@@ -28,7 +28,7 @@ Project configured to use Node `v12.20.0`.
 3. Create database, tables and populate with `yarn run prestart`
 4. Run the project with `yarn run dev`
 
-## How to create a production project
+## How to create a production project?
 ---
 Before you can host a api externally you're first going to have to:
 
