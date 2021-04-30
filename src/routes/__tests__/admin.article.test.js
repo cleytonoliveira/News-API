@@ -22,10 +22,10 @@ const user = {
 const mockResult = [
   {
     id: 1,
-    title: 'Article',
-    category: 'Category',
-    summary: 'This is a summary of the article',
-    firstParagraph: '<p>This is the first paragraph of this article</p>',
+    title: 'Article 1',
+    category: 'Category 1',
+    summary: 'This is a summary of the article 1',
+    firstParagraph: '<p>This is the first paragraph of this article 1</p>',
     body: '<div><p>Second paragraph</p><p>Third paragraph</p></div>',
     author: {
       id: 1,
@@ -35,10 +35,10 @@ const mockResult = [
   },
   {
     id: 2,
-    title: 'Article',
-    category: 'Category',
-    summary: 'This is a summary of the article',
-    firstParagraph: '<p>This is the first paragraph of this article</p>',
+    title: 'Article 2',
+    category: 'Category 2',
+    summary: 'This is a summary of the article 2',
+    firstParagraph: '<p>This is the first paragraph of this article 2</p>',
     body: '<div><p>Second paragraph</p><p>Third paragraph</p></div>',
     author: {
       id: 2,
@@ -80,7 +80,7 @@ describe('Articles', () => {
     it('shouldn\'t be able to register a new article if user is not admin', async () => {
       const { body: { token } } = await request.post('/api/login')
         .send({
-          email: 'first_author@mail.com',
+          email: 'user@mail.com',
           password: '12345678',
         })
         .expect(200);
@@ -268,7 +268,7 @@ describe('Articles', () => {
     it('shouldn\'t be able to get all articles if user is not admin', async () => {
       const { body: { token } } = await request.post('/api/login')
         .send({
-          email: 'first_author@mail.com',
+          email: 'user@mail.com',
           password: '12345678',
         })
         .expect(200);
@@ -321,7 +321,7 @@ describe('Articles', () => {
     it('shouldn\'t be able to get article by id if user is not admin', async () => {
       const { body: { token } } = await request.post('/api/login')
         .send({
-          email: 'first_author@mail.com',
+          email: 'user@mail.com',
           password: '12345678',
         })
         .expect(200);
@@ -403,7 +403,7 @@ describe('Articles', () => {
     it('shouldn\'t be able to update article if user is not admin', async () => {
       const { body: { token } } = await request.post('/api/login')
         .send({
-          email: 'first_author@mail.com',
+          email: 'user@mail.com',
           password: '12345678',
         })
         .expect(200);
@@ -589,7 +589,7 @@ describe('Articles', () => {
     it('shouldn\'t be able to delete article if user is not admin', async () => {
       const { body: { token } } = await request.post('/api/login')
         .send({
-          email: 'first_author@mail.com',
+          email: 'user@mail.com',
           password: '12345678',
         })
         .expect(200);

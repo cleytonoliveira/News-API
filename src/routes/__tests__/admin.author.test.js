@@ -57,7 +57,7 @@ describe('Authors', () => {
     it('shouldn\'t be able to register a new author if user is not admin', async () => {
       const { body: { token } } = await request.post('/api/login')
         .send({
-          email: 'first_author@mail.com',
+          email: 'user@mail.com',
           password: '12345678',
         })
         .expect(200);
@@ -113,7 +113,7 @@ describe('Authors', () => {
     it('shouldn\'t be able to get all authors if user is not admin', async () => {
       const { body: { token } } = await request.post('/api/login')
         .send({
-          email: 'first_author@mail.com',
+          email: 'user@mail.com',
           password: '12345678',
         })
         .expect(200);
@@ -151,7 +151,7 @@ describe('Authors', () => {
     it('shouldn\'t be able to get author by id if user is not admin', async () => {
       const { body: { token } } = await request.post('/api/login')
         .send({
-          email: 'first_author@mail.com',
+          email: 'user@mail.com',
           password: '12345678',
         })
         .expect(200);
@@ -210,7 +210,7 @@ describe('Authors', () => {
     it('shouldn\'t be able to update author if user is not admin', async () => {
       const { body: { token } } = await request.post('/api/login')
         .send({
-          email: 'first_author@mail.com',
+          email: 'user@mail.com',
           password: '12345678',
         })
         .expect(200);
@@ -310,7 +310,7 @@ describe('Authors', () => {
     it('shouldn\'t be able to delete author if user is not admin', async () => {
       const { body: { token } } = await request.post('/api/login')
         .send({
-          email: 'first_author@mail.com',
+          email: 'user@mail.com',
           password: '12345678',
         })
         .expect(200);
