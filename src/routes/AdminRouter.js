@@ -48,6 +48,7 @@ AdminRouter.post('/articles',
   rescue(ArticleController.register));
 
 AdminRouter.put('/articles/:id',
+  validateArticleFields,
   authentication,
   rescue(ArticleController.update));
 
