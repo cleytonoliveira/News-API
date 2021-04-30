@@ -10,20 +10,6 @@ exports.seed = (knex) => knex('users')
         picture: 'https://i.pravatar.cc/150',
       },
       {
-        name: 'First Author',
-        email: 'first_author@mail.com',
-        password: '12345678',
-        role: 'author',
-        picture: 'https://i.pravatar.cc/150',
-      },
-      {
-        name: 'Second Author',
-        email: 'second_author@mail.com',
-        password: '12345678',
-        role: 'author',
-        picture: 'https://i.pravatar.cc/150',
-      },
-      {
         name: 'User Example',
         email: 'user@mail.com',
         password: '12345678',
