@@ -74,8 +74,19 @@ const findByIdAnonymous = async (req, res) => {
     .json(article);
 };
 
+const findCategory = async (req, res) => {
+  const { category } = req.query;
+
+  const categories = await ArticleService.findCategory(category);
+
+  return res
+    .status(200)
+    .json(categories);
+};
+
 module.exports = {
   findByIdAnonymous,
+  findCategory,
   register,
   findById,
   findAll,

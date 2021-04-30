@@ -6,7 +6,7 @@ const { authAnonymous } = require('../middlewares');
 
 const ArticleRouter = Router();
 
-ArticleRouter.get('/', rescue(ArticleController));
+ArticleRouter.get('/', rescue(ArticleController.findCategory));
 ArticleRouter.get('/:id', authAnonymous, rescue(ArticleController.findByIdAnonymous));
 
 module.exports = ArticleRouter;

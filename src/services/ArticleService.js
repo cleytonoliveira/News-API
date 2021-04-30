@@ -53,8 +53,18 @@ const remove = async (id, role) => {
 
 const findByIdAnonymous = async (id, role) => isAnonymousUser(id, role);
 
+const findCategory = async (category) => {
+  const categories = await Article.query()
+    .select('category', 'title', 'summary')
+    .where('category', 'like', `%${category}%`)
+    .withGraphFetched('author');
+
+  return categories;
+};
+
 module.exports = {
   findByIdAnonymous,
+  findCategory,
   register,
   findById,
   findAll,
