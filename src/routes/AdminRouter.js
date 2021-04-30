@@ -46,9 +46,11 @@ AdminRouter.post('/articles',
   validateArticleFields,
   authentication,
   rescue(ArticleController.register));
-// AdminRouter.put('/articles/:id',
-//   authentication,
-//   rescue(ArticleController.update));
+
+AdminRouter.put('/articles/:id',
+  authentication,
+  rescue(ArticleController.update));
+
 // AdminRouter.delete('/articles/:id',
 //   authentication,
 //   rescue(ArticleController.remove));

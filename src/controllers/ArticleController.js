@@ -40,9 +40,17 @@ const findById = async (req, res) => {
     .json(articleById);
 };
 
-// const update = async (req, res) => {
+const update = async (req, res) => {
+  const { id } = req.params;
+  const { body } = req;
+  const { role } = req.sub;
 
-// };
+  const article = await ArticleService.update(id, role, body);
+
+  return res
+    .status(200)
+    .json(article);
+};
 
 // const remove = async (req, res) => {
 
@@ -53,5 +61,5 @@ module.exports = {
   findById,
   findAll,
   // remove,
-  // update,
+  update,
 };
