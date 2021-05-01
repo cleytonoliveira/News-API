@@ -1,6 +1,6 @@
 # News API - Node.js Challenge - Jungle Devs
 
-Project developed by Cleyton Oliveira, as a technical challenge from Jungle Devs. The purpose was implemented a simplified version os news provider API.
+Project developed by Cleyton Oliveira, as a technical challenge from Jungle Devs. The purpose was implemented a simplified version of news provider API.
 
 ## Used Techs:
 ---
