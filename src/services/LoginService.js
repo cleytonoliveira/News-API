@@ -1,5 +1,7 @@
 const { User } = require('../database/models');
-const { generateToken, isValidField } = require('../utils');
+const {
+  generateToken, isValidField, compareHash, isValidPassword,
+} = require('../utils');
 
 /**
  * Responsible for authenticate and generate token
@@ -11,13 +13,14 @@ const { generateToken, isValidField } = require('../utils');
  */
 const auth = async (email, password) => {
   const user = await User.query()
-    .select('id', 'email', 'role')
-    .findOne({ email })
-    .where({ password });
-
+    .findOne({ email });
   isValidField(user);
+
+  const isTrueHash = await compareHash(password, user.password);
+  isValidPassword(isTrueHash);
+
   const token = generateToken(email, user.id, user.role);
-  return { user, token };
+  return { user: { id: user.id, email: user.email, role: user.role }, token };
 };
 
 module.exports = {
