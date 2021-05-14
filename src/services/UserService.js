@@ -1,5 +1,5 @@
 const { User } = require('../database/models');
-const { generateToken, isEmailAlreadyRegistered } = require('../utils');
+const { generateToken, isEmailAlreadyRegistered, generateHash } = require('../utils');
 
 /**
  * Responsible to regiter and verify regitered users
@@ -14,10 +14,12 @@ const { generateToken, isEmailAlreadyRegistered } = require('../utils');
 const register = async (name, email, password, picture) => {
   await isEmailAlreadyRegistered(email);
 
+  const hashedPassword = await generateHash(password);
+
   const user = await User.query().insert({
     name,
     email,
-    password,
+    password: hashedPassword,
     picture,
   });
 

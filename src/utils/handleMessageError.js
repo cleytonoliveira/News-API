@@ -6,7 +6,11 @@ const isAdminAccess = (role) => {
 };
 
 const isValidField = (user) => {
-  if (!user) throw Boom.unauthorized('Invalid Field');
+  if (!user) throw Boom.notFound('Email not found');
+};
+
+const isValidPassword = (isTrueHash) => {
+  if (!isTrueHash) throw Boom.unauthorized('Invalid Password');
 };
 
 const isEmailAlreadyRegistered = async (email) => {
@@ -38,6 +42,7 @@ const isAnonymousUser = async (id, role) => {
 module.exports = {
   isValidField,
   isAdminAccess,
+  isValidPassword,
   isAnonymousUser,
   isAuthorIdExists,
   isArticleIdExists,
