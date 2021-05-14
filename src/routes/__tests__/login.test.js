@@ -2,6 +2,7 @@ const supertest = require('supertest');
 const shell = require('shelljs');
 
 const app = require('../../app');
+const { generateHash } = require('../../utils');
 const { User } = require('../../database/models');
 
 const request = supertest(app);
@@ -15,18 +16,20 @@ describe('Login', () => {
     });
 
     it('should be able to login with successful', async () => {
+      const hashedPassword = await generateHash('12345678');
       const user = await User.query().insert({
         name: 'Teste da Silva',
         email: 'teste@email.com',
-        password: '12345678',
+        password: hashedPassword,
         picture: 'https://i.pravatar.cc/150',
       });
 
       const response = await request.post('/api/login')
         .send({
           email: user.email,
-          password: user.password,
-        });
+          password: '12345678',
+        })
+        .expect(200);
 
       expect(response.statusCode).toEqual(200);
       expect(response.body).toHaveProperty('token');
@@ -49,15 +52,16 @@ describe('Login', () => {
           password: user.password,
         });
 
-      expect(response.statusCode).toEqual(401);
-      expect(response.body.message).toBe('Invalid Field');
+      expect(response.statusCode).toEqual(404);
+      expect(response.body.message).toBe('Email not found');
     });
 
     it('shouldn\'t be able to login with invalid password', async () => {
+      const hashedPassword = await generateHash('12345678');
       const user = await User.query().insert({
         name: 'Teste da Silva',
         email: 'teste@email.com',
-        password: '12345678',
+        password: hashedPassword,
         picture: 'https://i.pravatar.cc/150',
       });
 
@@ -68,7 +72,7 @@ describe('Login', () => {
         });
 
       expect(response.statusCode).toEqual(401);
-      expect(response.body.message).toBe('Invalid Field');
+      expect(response.body.message).toBe('Invalid Password');
     });
   });
 });
