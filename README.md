@@ -1,6 +1,6 @@
 # News API - Node.js Challenge - Jungle Devs
 
-Project developed by Cleyton Oliveira, as a technical challenge from Jungle Devs. The purpose was implemented a simplified version os news provider API.
+Project developed by Cleyton Oliveira, as a technical challenge from Jungle Devs. The purpose was implemented a simplified version of news provider API.
 
 ## Used Techs:
 ---
@@ -16,7 +16,7 @@ Project developed by Cleyton Oliveira, as a technical challenge from Jungle Devs
 - Boom
 - JWT
 - ESLint
-## How to start the project
+## How to start the project?
 ---
 
 ### Installation and Setup Instructions
@@ -25,10 +25,11 @@ Project configured to use Node `v12.20.0`.
 
 1. Clone with `git clone`
 2. Install dependencies with `yarn install`
-3. Create database, tables and populate with `yarn run prestart`
-4. Run the project with `yarn run dev`
+3. Create a file `.env` like the `.env.example`
+4. Create database, tables and populate with `yarn run prestart`
+5. Run the project with `yarn run dev`
 
-## How to create a production project
+## How to create a production project?
 ---
 Before you can host a api externally you're first going to have to:
 
